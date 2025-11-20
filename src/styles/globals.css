@@ -1,0 +1,9 @@
+/* Custom CSS for the subtle Vignette/Scrim effect */
+.bg-radial-gradient-scrim {
+  background: radial-gradient(
+    circle at center,
+    transparent 50%, 
+    rgba(0, 0, 0, 0.05) 90%, 
+    rgba(0, 0, 0, 0.1) 100%
+  );
+}

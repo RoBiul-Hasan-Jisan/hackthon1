@@ -1,7 +1,8 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+  // 1. Added 'ghost' to the list of allowed variants here
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   children: React.ReactNode;
@@ -22,7 +23,10 @@ export const Button: React.FC<ButtonProps> = ({
     primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
     secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
     outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    // 2. Added the styling for the 'ghost' variant here
+    // "text-current" allows it to take the text color of the parent (White in your hero section)
+    ghost: 'bg-transparent hover:bg-white/10 text-current focus:ring-gray-500'
   };
 
   const sizes = {
@@ -31,7 +35,9 @@ export const Button: React.FC<ButtonProps> = ({
     lg: 'px-6 py-3 text-lg'
   };
 
-  const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
+  // Safety check: fallback to primary if an invalid variant is somehow passed
+  const variantClass = variants[variant] || variants.primary;
+  const classes = `${baseClasses} ${variantClass} ${sizes[size]} ${className}`;
 
   return (
     <button className={classes} disabled={disabled || isLoading} {...props}>
