@@ -26,17 +26,17 @@ export default function AlgorithmVisualizer({
   }
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
+    <div className="flex flex-col h-full gap-6 overflow-hidden">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">{algorithm.name}</h1>
         <p className="text-muted-foreground mt-2">{algorithm.description}</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 overflow-y-auto">
         {/* Main Visualization Area */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-          <div className="flex-1 bg-card rounded-lg border border-border p-6">
+          <div className="bg-card rounded-lg border border-border p-6 max-h-96 overflow-hidden">
             <VisualizerDisplay algorithmId={algorithmId} />
           </div>
 
@@ -49,7 +49,7 @@ export default function AlgorithmVisualizer({
         </div>
 
         {/* Sidebar - Info & Code */}
-        <div className="flex flex-col gap-6 overflow-y-auto">
+        <div className="flex flex-col gap-6">
           <ComplexityInfo algorithm={algorithm} />
           <CodeExplorer algorithm={algorithm} />
         </div>

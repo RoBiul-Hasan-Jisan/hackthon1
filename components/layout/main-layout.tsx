@@ -1,24 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import Sidebar from './sidebar';
 import Header from './header';
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MainLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isDark, setIsDark] = useState(true);
 
-  const toggleDarkMode = () => {
-    setIsDark(!isDark);
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-    } else {
+  // Initialize theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
+    
+    setIsDark(shouldBeDark);
+    if (shouldBeDark) {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newIsDark = !isDark;
+    setIsDark(newIsDark);
+    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+    
+    if (newIsDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   };
 
